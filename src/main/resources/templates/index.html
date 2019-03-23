@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+</head>
+<body>
+<form action="/listItems" method="get">
+    <p><select name="user">
+        <option th:each="usr : ${users}" th:text="${usr.name}" th:value="${usr.name}">Bob</option>
+    </select></p>
+    <p><input type="submit" value="View item list"></p>
+</form>
+<a href="/addItem">Add more items</a>
+<a href="/addUser">Register more users</a>
+</body>
+</html>

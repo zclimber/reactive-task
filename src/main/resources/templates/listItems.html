@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Items list</title>
+</head>
+<body>
+<p th:text="'Viewing items as ' + ${usr.name}">Viewing as Bob</p>
+<table>
+    <tbody>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.name}">Carrot</td>
+        <td th:text="${item.price} + ' ' + ${item.currency.name}">0.1 AUD</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

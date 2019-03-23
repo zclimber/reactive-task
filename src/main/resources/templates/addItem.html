@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new item</title>
+</head>
+<body>
+<form action="/addItem" method="post">
+    <p>Name:<input type="text" name="name"/></p>
+    <p>Price value: <input name="price" type="number"></p>
+    <p>Price currency:<select name="currency">
+        <option th:each="cur : ${currencies}" th:text="${cur.name}" th:value="${cur.name}">AUD</option>
+    </select></p>
+    <p><input type="submit" value="Add item"></p>
+</form>
+</body>
+</html>
