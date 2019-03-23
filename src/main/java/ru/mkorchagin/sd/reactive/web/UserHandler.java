@@ -34,13 +34,17 @@ public class UserHandler extends BaseHandler {
 
     public Mono<ServerResponse> addUser(ServerRequest request) {
         return request.formData().flatMap(
-                data -> userRepo.findById(data.getFirst("user")).flatMap(
-                        name -> ServerResponse.badRequest().body(BodyInserters.fromObject("User already registered"))
-                ).switchIfEmpty(
-                        currencyRepo.findById(data.getFirst("currency")).flatMap(
-                                currency -> userRepo.save(new User(data.getFirst("user"), currency)))
-                                .flatMap(e -> ServerResponse.ok().body(BodyInserters.fromObject("User " + e.getName() + " registered")))
-                )
-        ).onErrorResume(e -> ServerResponse.badRequest().build());
+                data -> {
+                    String userName = data.getFirst("name");
+                    String currencyName = data.getFirst("currency");
+                    return userRepo.findById(userName).flatMap(
+                            name -> ServerResponse.badRequest().body(BodyInserters.fromObject("User already registered"))
+                    ).switchIfEmpty(
+                            currencyRepo.findById(currencyName).flatMap(
+                                    currency -> userRepo.save(new User(userName, currency)))
+                                    .flatMap(e -> ServerResponse.ok().body(BodyInserters.fromObject("User " + userName + " registered")))
+                    );
+                }
+        ).onErrorResume(e -> ServerResponse.badRequest().body(BodyInserters.fromObject(e.getMessage())));
     }
 }

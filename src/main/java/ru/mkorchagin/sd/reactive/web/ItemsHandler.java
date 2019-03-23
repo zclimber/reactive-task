@@ -29,7 +29,7 @@ public class ItemsHandler extends BaseHandler {
     public Mono<ServerResponse> listAllItemsView(ServerRequest request) {
         return userCheckingHandler(request, user -> {
             Map<String, Object> modelAttributes = new HashMap<>();
-            modelAttributes.put("user", user);
+            modelAttributes.put("usr", user);
             modelAttributes.put("items", new ReactiveDataDriverContextVariable(
                     itemRepo.findAll().map(e -> e.converted(user.getPriceViewCurrency()))
             ));
@@ -47,13 +47,18 @@ public class ItemsHandler extends BaseHandler {
 
     public Mono<ServerResponse> addItem(ServerRequest request) {
         return request.formData().flatMap(
-                data -> itemRepo.findById(data.getFirst("name")).flatMap(
-                        name -> ServerResponse.badRequest().body(BodyInserters.fromObject("Item already present"))
-                ).switchIfEmpty(
-                        currencyRepo.findById(data.getFirst("currency")).flatMap(
-                                currency -> itemRepo.save(new Item(data.getFirst("name"), Double.parseDouble(data.getFirst("price")), currency)))
-                                .flatMap(e -> ServerResponse.ok().body(BodyInserters.fromObject("Item " + e.getName() + " created")))
-                )
-        ).onErrorResume(e -> ServerResponse.badRequest().build());
+                data -> {
+                    String itemName = data.getFirst("name");
+                    String currencyName = data.getFirst("currency");
+                    Double price = Double.parseDouble(data.getFirst("price"));
+                    return itemRepo.findById(itemName).flatMap(
+                            name -> ServerResponse.badRequest().body(BodyInserters.fromObject("Item already present"))
+                    ).switchIfEmpty(
+                            currencyRepo.findById(currencyName).flatMap(
+                                    currency -> itemRepo.save(new Item(itemName, price, currency)))
+                                    .flatMap(e -> ServerResponse.ok().body(BodyInserters.fromObject("Item " + itemName + " created")))
+                    );
+                }
+        ).onErrorResume(e -> ServerResponse.badRequest().body(BodyInserters.fromObject(e.getMessage())));
     }
 }
