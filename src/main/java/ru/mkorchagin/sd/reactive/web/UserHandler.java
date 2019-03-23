@@ -1,5 +1,6 @@
 package ru.mkorchagin.sd.reactive.web;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -12,6 +13,7 @@ import ru.mkorchagin.sd.reactive.repo.UserRepo;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class UserHandler extends BaseHandler {
     private final UserRepo userRepo;
     private final CurrencyRepo currencyRepo;

@@ -1,5 +1,6 @@
 package ru.mkorchagin.sd.reactive.web;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
@@ -9,6 +10,7 @@ import ru.mkorchagin.sd.reactive.repo.UserRepo;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class IndexHandler extends BaseHandler {
 
     private final UserRepo userRepo;
