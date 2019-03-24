@@ -14,11 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class UserHandler extends BaseHandler {
+public class UsersHandler extends BaseHandler {
     private final UserRepo userRepo;
     private final CurrencyRepo currencyRepo;
 
-    public UserHandler(UserRepo userRepo, CurrencyRepo currencyRepo) {
+    public UsersHandler(UserRepo userRepo, CurrencyRepo currencyRepo) {
         super(userRepo);
         this.userRepo = userRepo;
         this.currencyRepo = currencyRepo;

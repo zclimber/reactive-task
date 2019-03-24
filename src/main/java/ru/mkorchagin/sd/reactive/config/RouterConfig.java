@@ -7,15 +7,15 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import ru.mkorchagin.sd.reactive.web.IndexHandler;
 import ru.mkorchagin.sd.reactive.web.ItemsHandler;
-import ru.mkorchagin.sd.reactive.web.UserHandler;
+import ru.mkorchagin.sd.reactive.web.UsersHandler;
 
 @Configuration
 public class RouterConfig {
     private final ItemsHandler itemsHandler;
-    private final UserHandler usersHandler;
+    private final UsersHandler usersHandler;
     private final IndexHandler indexHandler;
 
-    public RouterConfig(ItemsHandler itemsHandler, UserHandler usersHandler, IndexHandler indexHandler) {
+    public RouterConfig(ItemsHandler itemsHandler, UsersHandler usersHandler, IndexHandler indexHandler) {
         this.itemsHandler = itemsHandler;
         this.usersHandler = usersHandler;
         this.indexHandler = indexHandler;
