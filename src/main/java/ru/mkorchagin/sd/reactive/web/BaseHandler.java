@@ -20,7 +20,8 @@ public class BaseHandler {
     protected Mono<ServerResponse> userCheckingHandler(ServerRequest request, Function<User, Mono<ServerResponse>> handler) {
         return userRepo.findById(
                 Mono.justOrEmpty(request.queryParam("user").orElse(null))
-                        .switchIfEmpty(request.formData().map(data -> data.getFirst("user")))
+                        .switchIfEmpty(request.formData().flatMap(
+                                data -> Mono.justOrEmpty(data.getFirst("user"))))
         )
                 .flatMap(handler)
                 .switchIfEmpty(ServerResponse.badRequest().body(BodyInserters.fromObject("Invalid user")));
